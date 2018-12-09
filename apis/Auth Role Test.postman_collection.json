@@ -1,0 +1,1422 @@
+{
+	"info": {
+		"_postman_id": "04234136-0a3d-407d-a2e9-8c4c1cede6b0",
+		"name": "Auth Role Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Super Admin",
+					"item": [
+						{
+							"name": "Login - Super Admin - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8d8a591a-aa05-4a28-b4cb-044aa3e6a780",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"superadmin-access\", jsonData[\"access\"]);",
+											"postman.setEnvironmentVariable(\"superadmin-refresh\", jsonData[\"refresh\"]);",
+											"tests[\"Status code is 200\"] = responseCode.code === 200;"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"{{superadmin-user}}\",\n\t\"password\": \"{{password}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login Refresh - Super Admin - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"superadmin-access\", jsonData[\"access\"]);",
+											"postman.setEnvironmentVariable(\"superadmin-refresh\", jsonData[\"refresh\"]);",
+											"tests[\"Status code is 200\"] = responseCode.code === 200;"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{superadmin-access}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"refresh\": \"{{superadmin-refresh}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login/refresh",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login Verify - Super Admin - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"token\": \"{{superadmin-access}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login/verify",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout - Super Admin - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8d8a591a-aa05-4a28-b4cb-044aa3e6a780",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{superadmin-access}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"refresh\": \"{{superadmin-refresh}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/logout",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "Login - Admin - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8d8a591a-aa05-4a28-b4cb-044aa3e6a780",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"admin-access\", \"Bearer \" + jsonData[\"access\"]);",
+											"postman.setEnvironmentVariable(\"admin-refresh\", jsonData[\"refresh\"]);",
+											"tests[\"Status code is 200\"] = responseCode.code === 200;"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"{{admin-user}}\",\n\t\"password\": \"{{password}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login Refresh - Admin - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"admin-access\", \"Bearer \" + jsonData[\"access\"]);",
+											"postman.setEnvironmentVariable(\"admin-refresh\", jsonData[\"refresh\"]);",
+											"tests[\"Status code is 200\"] = responseCode.code === 200;"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"refresh\": \"{{admin-refresh}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login/refresh",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login Verify - Admin - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"token\": \"{{admin-access}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login/verify",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout - Admin - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8d8a591a-aa05-4a28-b4cb-044aa3e6a780",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{admin-access}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"refresh\": \"{{admin-refresh}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/logout",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Supervisor",
+					"item": [
+						{
+							"name": "Login - Supervisor - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8d8a591a-aa05-4a28-b4cb-044aa3e6a780",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"supervisor-access\", \"Bearer \" + jsonData[\"access\"]);",
+											"postman.setEnvironmentVariable(\"supervisor-refresh\", jsonData[\"refresh\"]);",
+											"tests[\"Status code is 200\"] = responseCode.code === 200;"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"{{supervisor-user}}\",\n\t\"password\": \"{{password}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login Refresh - Supervisor - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"supervisor-access\", \"Bearer \" + jsonData[\"access\"]);",
+											"postman.setEnvironmentVariable(\"supervisor-refresh\", jsonData[\"refresh\"]);",
+											"tests[\"Status code is 200\"] = responseCode.code === 200;"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"refresh\": \"{{supervisor-refresh}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login/refresh",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login Verify - Supervisor - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"token\": \"{{supervisor-access}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login/verify",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout - Supervisor - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8d8a591a-aa05-4a28-b4cb-044aa3e6a780",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{supervisor-access}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"refresh\": \"{{supervisor-refresh}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/logout",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Secretary",
+					"item": [
+						{
+							"name": "Login - Secretary - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8d8a591a-aa05-4a28-b4cb-044aa3e6a780",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"secretary-access\", \"Bearer \" + jsonData[\"access\"]);",
+											"postman.setEnvironmentVariable(\"secretary-refresh\", jsonData[\"refresh\"]);",
+											"tests[\"Status code is 200\"] = responseCode.code === 200;"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"{{secretary-user}}\",\n\t\"password\": \"{{password}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login Refresh - Secretary - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"secretary-access\", \"Bearer \" + jsonData[\"access\"]);",
+											"postman.setEnvironmentVariable(\"secretary-refresh\", jsonData[\"refresh\"]);",
+											"tests[\"Status code is 200\"] = responseCode.code === 200;"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"refresh\": \"{{secretary-refresh}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login/refresh",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login Verify - Secretary - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"token\": \"{{secretary-access}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login/verify",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout - Secretary - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8d8a591a-aa05-4a28-b4cb-044aa3e6a780",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{secretary-access}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"refresh\": \"{{secretary-refresh}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/logout",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Teacher",
+					"item": [
+						{
+							"name": "Login - Teacher - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8d8a591a-aa05-4a28-b4cb-044aa3e6a780",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"teacher-access\", \"Bearer \" + jsonData[\"access\"]);",
+											"postman.setEnvironmentVariable(\"teacher-refresh\", jsonData[\"refresh\"]);",
+											"tests[\"Status code is 200\"] = responseCode.code === 200;"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"{{teacher-user}}\",\n\t\"password\": \"{{password}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login Refresh - Teacher - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"teacher-access\", \"Bearer \" + jsonData[\"access\"]);",
+											"postman.setEnvironmentVariable(\"teacher-refresh\", jsonData[\"refresh\"]);",
+											"tests[\"Status code is 200\"] = responseCode.code === 200;"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"refresh\": \"{{teacher-refresh}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login/refresh",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login Verify - Teacher - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"token\": \"{{teacher-access}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login/verify",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout - Teacher - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8d8a591a-aa05-4a28-b4cb-044aa3e6a780",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{teacher-access}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"refresh\": \"{{teacher-refresh}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/logout",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Student",
+					"item": [
+						{
+							"name": "Login - Student - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8d8a591a-aa05-4a28-b4cb-044aa3e6a780",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"student-access\", \"Bearer \" + jsonData[\"access\"]);",
+											"postman.setEnvironmentVariable(\"student-refresh\", jsonData[\"refresh\"]);",
+											"tests[\"Status code is 200\"] = responseCode.code === 200;"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"{{student-user}}\",\n\t\"password\": \"{{password}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login Refresh - Student - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"student-access\", \"Bearer \" + jsonData[\"access\"]);",
+											"postman.setEnvironmentVariable(\"student-refresh\", jsonData[\"refresh\"]);",
+											"tests[\"Status code is 200\"] = responseCode.code === 200;"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"refresh\": \"{{student-refresh}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login/refresh",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login Verify - Student - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"token\": \"{{student-access}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/login/verify",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"login",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout - Teacher - 200 Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8d8a591a-aa05-4a28-b4cb-044aa3e6a780",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{student-access}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"refresh\": \"{{student-refresh}}\"\n}"
+								},
+								"url": {
+									"raw": "http://{{server}}:{{port}}/auth/logout",
+									"protocol": "http",
+									"host": [
+										"{{server}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get Users - Super admin - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{superadmin-access}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{server}}:{{port}}/users",
+							"protocol": "http",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users - Admin - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{server}}:{{port}}/users",
+							"protocol": "http",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users - Supervisor - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{supervisor-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{server}}:{{port}}/users",
+							"protocol": "http",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users - Secretary - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{secretary-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{server}}:{{port}}/users",
+							"protocol": "http",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users - Teacher - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{teacher-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{server}}:{{port}}/users",
+							"protocol": "http",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users - Student - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "67972277-a1e6-48ce-888b-57e8678f8a45",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{student-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{server}}:{{port}}/users",
+							"protocol": "http",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
